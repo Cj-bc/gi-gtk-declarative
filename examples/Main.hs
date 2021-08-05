@@ -12,6 +12,7 @@ import qualified Exit
 import qualified FileChooserButton
 import qualified Functor
 import qualified Grid
+import qualified GridNextTo
 import qualified Hello
 import qualified ListBox
 import qualified ManyBoxes
@@ -29,6 +30,7 @@ main =
           , ("ListBox"          , ListBox.main)
           , ("Functor"          , Functor.main)
           , ("Grid"             , Grid.main)
+          , ("GridNextTo"       , GridNextTo.main)
           , ("Exit"             , Exit.main)
           , ("ManyBoxes"        , ManyBoxes.main)
           , ("MenuBar"          , MenuBar.main)
