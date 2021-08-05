@@ -1,4 +1,4 @@
-resolver: lts-17.0
+resolver: haskell-gi-339-walkaround-snapshot.yaml
 
 packages:
 - gi-gtk-declarative
