@@ -39,6 +39,11 @@ data GridChildProperties =
     , leftAttach :: Int32
     , topAttach  :: Int32
     }
+  | GridChildPropertiesNextTo
+      { height :: Int32,
+        width :: Int32,
+        side :: Gtk.PositionType
+      }
   deriving (Eq, Show)
 
 -- | Defaults for 'GridChildProperties'. Use these and override
@@ -61,10 +66,20 @@ instance EventSource GridChild where
 instance ToChildren Gtk.Grid Vector GridChild
 
 instance IsContainer Gtk.Grid GridChild where
-  appendChild grid GridChild { properties } widget' = do
-    let GridChildProperties { width, height, leftAttach, topAttach } =
-          properties
-    Gtk.gridAttach grid widget' leftAttach topAttach width height
+  appendChild grid GridChild { properties } widget' = case properties of
+    GridChildProperties height width leftAttach topAttach ->
+      Gtk.gridAttach grid widget' leftAttach topAttach width height
+
+    -- TODO: What is proper type of 'sibling'?
+    -- I couldn't use either 'Nothing' and 'Nothing :: IsWidget c => Maybe c'
+    GridChildPropertiesNextTo height width side -> Gtk.gridAttachNextTo
+      grid
+      widget'
+      (Nothing :: Maybe Gtk.Bin)
+      side
+      width
+      height
+
   replaceChild grid gridChild' _i old new = do
     Gtk.widgetDestroy old
     appendChild grid gridChild' new
